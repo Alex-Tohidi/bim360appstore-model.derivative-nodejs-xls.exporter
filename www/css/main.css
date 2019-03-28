@@ -33,3 +33,10 @@ body {
     background-repeat: no-repeat;
     background-position: center;
 }
+
+.toolbarSubmitButton {
+    background-image: url(/img/column.jpg);
+    background-size: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+}

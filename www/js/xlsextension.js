@@ -41,9 +41,25 @@ XLSExtension.prototype.load = function () {
     button1.addClass('toolbarXLSButton');
     button1.setToolTip('Export to .XLSX');
 
+
+    // Button 2
+    var button2 = new Autodesk.Viewing.UI.Button('toolbarSubmit');
+    button2.onClick = function (e) {
+      
+      let sourceNode = $('#dataManagementHubs').jstree(true).get_selected(true)[0];
+      if(sourceNode === null){
+        alert('Can not get the selected source folder, please make sure you select a folder as source');
+        return;
+      }
+      upgradeColumnInfo(sourceNode.id, fileName);
+    };
+    button2.addClass('toolbarSubmitButton');
+    button2.setToolTip('Submit column information');
     // SubToolbar
     this.subToolbar = new Autodesk.Viewing.UI.ControlGroup('myAppGroup1');
+    this.subToolbar.addControl(button2);
     this.subToolbar.addControl(button1);
+
 
     _viewer.toolbar.addControl(this.subToolbar);
   };
@@ -58,5 +74,27 @@ XLSExtension.prototype.unload = function () {
   alert('XLSExtension is now unloaded!');
   return true;
 };
+
+
+function upgradeColumnInfo(fileItemId, fileItemName) {
+  let def = $.Deferred();
+
+  jQuery.post({
+    url: '/da4revit/v1/columns',
+    contentType: 'application/json',
+    dataType:'json',
+    data: JSON.stringify({
+      'fileItemId': fileItemId,
+      'fileItemName': fileItemName
+    }),
+    success: function (res) {
+      def.resolve(res);
+    },
+    error: function (err) {
+      def.reject(err);
+    }
+  });
+  return def.promise();
+}
 
 Autodesk.Viewing.theExtensionManager.registerExtension('Autodesk.Sample.XLSExtension', XLSExtension);

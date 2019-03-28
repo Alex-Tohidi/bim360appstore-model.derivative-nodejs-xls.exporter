@@ -31,8 +31,18 @@ module.exports = {
     client_secret: process.env.FORGE_CLIENT_SECRET || '<replace with your consumer secret>',
   },
 
+  designAutomation:{
+    revit_IO_WebHook_Url: process.env.FORGE_WEBHOOK_URL,
+    revit_IO_Endpoint: 'https://developer.api.autodesk.com/da/us-east/v3/',
+    revit_IO_Nick_Name:     process.env.REVIT_IO_NICK_NAME,
+    revit_IO_App_Name:      process.env.REVIT_IO_APP_NAME,
+    revit_IO_Activity_Name: process.env.REVIT_IO_ACTIVITY_NAME,
+  },
+
+
+  internal_2legged: ['code:all', 'bucket:create', 'bucket:read', 'data:read', 'data:create', 'data:write'],
   // Required scopes for your application on server-side
-  scopeInternal: ['data:read'],
+  scopeInternal: ['data:read', 'bucket:create', 'bucket:read', 'data:create', 'data:write'],
   // Required scope of the token sent to the client
   scopePublic: ['viewables:read'],
 };

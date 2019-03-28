@@ -18,6 +18,11 @@
 
 'use strict'; // http://www.w3schools.com/js/js_strict.asp
 
+// forge config information, such as client ID and secret
+var config = require('./config');
+const { AuthClientTwoLegged } = require('forge-apis');
+
+
 function Token(session) {
   this._session = session;
 }
@@ -58,6 +63,13 @@ Token.prototype.isAuthorized = function () {
   // !! converts value into boolean
   return (!!this._session.publicCredentials);
 };
+
+
+Token.prototype.get2LeggedClient = function(scopes = config.internal_2legged){
+  const { client_id, client_secret } = config.credentials;
+  return new AuthClientTwoLegged(client_id, client_secret, scopes );
+}
+
 
 // google token handling
 

@@ -21,6 +21,7 @@ var express = require('express');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var app = express();
+app.use(express.json({ limit: '50mb' }));
 
 // this session will be used to save the oAuth token
 app.use(cookieParser());
@@ -49,8 +50,10 @@ app.set('port', process.env.PORT || 3000); // main port
 
 // prepare our API endpoint routing
 var oauth = require('./oauth');
+var da4revit = require('./da4revit');
 var datamanagement = require('./data.management.tree.js');
 app.use('/', oauth); // redirect oauth API calls
+app.use('/', da4revit); // redirect da4revit API calls
 app.use('/', datamanagement); // redirect our custom API calls
 
 module.exports = app;
